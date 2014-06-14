@@ -114,6 +114,15 @@ describe OfficeAutopilotApi::Client::Contacts do
         lead_info.at_css("field[name='Contact Owner']").content.should == 'Mr Bar'
       end
     end
+
+    context "when 'bulk_mail' is specified" do
+      it "returns a valid contact xml containing the bulk_mail attributes" do
+        @contact_options.merge!('bulk_mail' => '0')
+        xml = Nokogiri::XML( @client.send(:xml_for_contact, @contact_options) )
+
+        xml.at_css('contact')['bulk_mail'].should == '0'
+      end
+    end
   end
 
   describe "#parse_contacts_xml" do

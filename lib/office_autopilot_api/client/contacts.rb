@@ -114,6 +114,8 @@ module OfficeAutopilotApi
         attrs = {}
         id = options.delete('id')
         attrs[:id] = id if id
+        bulk_mail = options.delete('bulk_mail')
+        attrs[:bulk_mail] = bulk_mail if bulk_mail
         action = options.delete('action')
         
         xml = Builder::XmlMarkup.new
