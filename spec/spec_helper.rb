@@ -17,7 +17,7 @@ def test_data(file_name)
 end
 
 def api_endpoint
-  "http://api.moon-ray.com"
+  "https://api.ontraport.com"
 end
 
 def escape_xml(xml)

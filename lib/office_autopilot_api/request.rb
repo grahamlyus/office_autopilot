@@ -4,7 +4,7 @@ module OfficeAutopilotApi
   class Request
 
     include HTTParty
-    base_uri 'http://api.moon-ray.com'
+    base_uri 'https://api.ontraport.com'
     format :plain
 
   end
