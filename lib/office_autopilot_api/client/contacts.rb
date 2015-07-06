@@ -9,6 +9,12 @@ module OfficeAutopilotApi
         response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'search', 'data' => xml})
         parse_contacts_xml(response)
       end
+      
+      def contacts_search_count(options)
+        xml = xml_for_multiple_search(options)
+        response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'search', 'data' => xml, 'count' => true})
+        parse_count_xml(response)
+      end
 
       def contacts_add(options)
         xml = xml_for_contact(options)
@@ -44,7 +50,18 @@ module OfficeAutopilotApi
       end
 
       private
+      
+      def parse_count_xml(response)
+        contacts = []
+        xml = Nokogiri::XML(response)
 
+        contact = {}
+        contact['count'] = xml.at('count').text
+
+        contacts << contact
+
+        contacts
+      end
       def parse_contacts_xml(response)
         contacts = []
         xml = Nokogiri::XML(response)
@@ -156,7 +173,18 @@ module OfficeAutopilotApi
           end
         end
       end
-
+      def xml_for_multiple_search(options)
+        xml = Builder::XmlMarkup.new
+        xml.search do
+          options.each do |option|
+            xml.equation do
+              xml.field option[:field]
+              xml.op option[:op]
+              xml.value option[:value]
+            end
+          end
+        end
+      end
     end
   end
 end
