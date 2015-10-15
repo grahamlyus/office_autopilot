@@ -42,6 +42,14 @@ describe OfficeAutopilotApi::Client do
       end
     end
 
+    context "when the email contains 'failure'" do
+      it "does not raise an error" do
+        expect {
+            puts @client.handle_response( test_data('contacts_add_response2.xml') )
+        }.not_to raise_error
+      end
+    end
+
     context "invalid XML error" do
       it "raises OfficeAutopilotApi::XmlError" do
         expect {
