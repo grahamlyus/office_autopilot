@@ -6,24 +6,28 @@ module OfficeAutopilotApi
 
       def contacts_search(options)
         xml = xml_for_search(options)
+        xml = CGI.escape(xml)
         response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'search', 'data' => xml})
         parse_contacts_xml(response)
       end
       
       def contacts_search_count(options)
         xml = xml_for_multiple_search(options)
+        xml = CGI.escape(xml)
         response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'search', 'data' => xml, 'count' => true})
         parse_count_xml(response)
       end
 
       def contacts_add(options)
         xml = xml_for_contact(options)
+        xml = CGI.escape(xml)
         response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'add', 'return_id' => '1', 'data' => xml})
         parse_contacts_xml(response)[0]
       end
       
       def contacts_update(options)
         xml = xml_for_contact(options)
+        xml = CGI.escape(xml)
         response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'update', 'return_id' => '1', 'data' => xml})
         parse_contacts_xml(response)[0]
       end
@@ -45,6 +49,7 @@ module OfficeAutopilotApi
 
       def contacts_fetch(ids)
         xml = xml_for_fetch("contact", ids)
+        xml = CGI.escape(xml)
         response = request(:post, CONTACTS_ENDPOINT, :body => {'reqType' => 'fetch', 'data' => xml})
         parse_contacts_xml(response)
       end
